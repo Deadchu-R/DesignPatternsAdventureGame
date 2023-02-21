@@ -57,7 +57,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _speed: 7
   health: 100
-  damage: 10
+  Damage: 10
   target: {x: -74.41, y: 1.1, z: -79.51775}
 --- !u!23 &2519386527840727606
 MeshRenderer:
@@ -79,7 +79,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 10303, guid: 0000000000000000f000000000000000, type: 0}
+  - {fileID: 2100000, guid: cd5ed0b7dcb22214f93aaa92bc90d8ec, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0

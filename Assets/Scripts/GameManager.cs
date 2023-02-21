@@ -88,11 +88,11 @@ public void OnNotify(NotifyActions action)
     {
         scoreTextMesh.text = scoreText + Score;
     }
-    if (action == NotifyActions.PlayerDamaged)
+    else if (action == NotifyActions.PlayerDamaged)
     {
         healthTextMesh.text = healthText + PlayerHealth;
     }
-    if (action == NotifyActions.PlayerDead)
+    else if(action == NotifyActions.PlayerDead)
     {
         Lost = true;
     }
