@@ -1,17 +1,20 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Pickable : MonoBehaviour
+public class Pickable : Notifier
 {
-    [SerializeField] int scoreWorth = 1;
-    
+    public int ScoreWorth = 1;
+
+
+
     private void OnTriggerEnter(Collider other)
     {
         if (other.CompareTag("Player"))
         {
-        Debug.Log("hello you picked up a pickable");
-            GameManager.Instance.Score += scoreWorth;
+            GameManager.Instance.Score += ScoreWorth;
+            NotifyObservers(NotifyActions.PickablePickedUp);
             Destroy(gameObject);
         }
     }

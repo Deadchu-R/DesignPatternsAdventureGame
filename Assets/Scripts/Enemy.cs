@@ -6,7 +6,7 @@ public class Enemy : MonoBehaviour
 {
     [SerializeField] private float _speed = 3f;
     [SerializeField] private float health = 100f;
-    [SerializeField] private float damage = 10f;
+    public float Damage = 10f;
     [SerializeField] private Vector3 target;
         bool forward = true;
         private Vector3 _startPosition;

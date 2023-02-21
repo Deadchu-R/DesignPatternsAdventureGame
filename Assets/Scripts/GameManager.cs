@@ -7,13 +7,9 @@ using UnityEngine.UI;
 using TMPro;
 using UnityEngine.Events;
 
-public class GameManager : MonoBehaviour
+public class GameManager : MonoBehaviour, IObserver
 {
- //   public Action<int> ScoreChanged;
-    //public Action<int> HealthChanged;
     
-    [SerializeField] private UnityEvent healthChangedEvent;
-    [SerializeField] private UnityEvent scoreChangedEvent;
     public  static  GameManager Instance { get; private set; }
     public int Score = 0;
     public float PlayerHealth = 1f;
@@ -22,15 +18,39 @@ public class GameManager : MonoBehaviour
     public string healthText = "HP:";
     [SerializeField] private TextMeshProUGUI scoreTextMesh;
     [SerializeField] private  TextMeshProUGUI healthTextMesh;
-    
-    private bool lost = false;
+    [SerializeField] private GameObject loseCanvas;
+    [SerializeField] private GameObject winCanvas;
+    [SerializeField] private GameObject uiCanvas;
+    [SerializeField] private List<Notifier> notifiers;
+    public bool Lost = false;
     private bool won = false;
+   
     
-private void Awake()
+
+    private void OnEnable()
     {
+        foreach (Notifier notifier in notifiers)
+        {
+            notifier.AddObserver(this);
+        }
+       
+    }
+
+    private void OnDisable()
+    {
+        foreach (Notifier notifier in notifiers)
+        {
+            notifier.RemoveObserver(this);
+        }
+    }
+
+    private void Awake()
+    {
+        
         if (Instance == null)
         {
             Instance = this;
+            
         }
         else
         {
@@ -38,17 +58,44 @@ private void Awake()
         }
     }
 
+public void Retry()
+{
+    UnityEngine.SceneManagement.SceneManager.LoadScene(0); 
+}
+
+
 private void Update()
 {
-    healthTextMesh.text = healthText + PlayerHealth;
-    scoreTextMesh.text = scoreText + Score;
+  
+
     if (Score == 10)
     {
         won = true;
+        uiCanvas.SetActive(false);
+        winCanvas.SetActive(true);
     }
-    if (lost == true)
+    if (Lost == true)
     {
-        
+        uiCanvas.SetActive(false);
+        loseCanvas.SetActive(true);
     }
 }
+
+public void OnNotify(NotifyActions action)
+{
+ 
+    if (action == NotifyActions.PickablePickedUp)
+    {
+        scoreTextMesh.text = scoreText + Score;
+    }
+    if (action == NotifyActions.PlayerDamaged)
+    {
+        healthTextMesh.text = healthText + PlayerHealth;
+    }
+    if (action == NotifyActions.PlayerDead)
+    {
+        Lost = true;
+    }
+}
+
 }
